@@ -1,20 +1,58 @@
 // Require the express router and workout model
 const router = require("express").Router();
-const db = require("../models/exercise");
+const Workout = require("../models/exercise");
 
 // Create get request for returning workouts
-router.get('/workout', (req, res) => {
 
+
+// Look up how to do aggregate which will replace find on both gets
+
+router.get('/api/workouts', (req, res) => {
+    Workout.find()
+    .then(dbWorkout => {
+        res.json(dbWorkout);
+      })
+      .catch(err => {
+        res.status(400).json(err);
+      });
+})
+
+router.get('/api/workouts/range', (req, res) => {
+    Workout.find().limit(7)
+    .then(dbWorkout => {
+        res.json(dbWorkout);
+      })
+      .catch(err => {
+        res.status(400).json(err);
+      });
 })
 
 // Create workout with post
-router.post('/workout', (req, res) => {
-
+router.post('/api/workouts', (req, res) => {
+    Workout.create({})
+    .then(dbWorkout => {
+        res.json(dbWorkout);
+      })
+      .catch(err => {
+        res.status(400).json(err);
+      });
 })
 
 // Update the workout with put
-router.put('/workout', (req, res) => {
-    
+router.put('/api/workouts/:id', (req, res) => {
+    Workout.findByIdAndUpdate(req.params.id,
+        {
+            $push: {exercises: req.body}
+        },
+        {
+            new: true
+        })
+        .then(dbWorkout => {
+            res.json(dbWorkout);
+          })
+          .catch(err => {
+            res.status(400).json(err);
+          });
 })
 
 
