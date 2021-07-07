@@ -1,49 +1,16 @@
-// Require mongoose
-const mongoose = require("mongoose");
+// Require the express router and workout model
+const router = require("express").Router();
+const db = require("../models/exercise");
 
-//Create  Mongoose Schema
-const Schema = mongoose.Schema;
+// Create get request for returning workouts
 
-// Create the new workout schema (day, exercises - name, type, distance, duration, weight, sets, reps)
-const WorkoutSchema = new Schema({
-  day: {
-    type: Date,
-    default: Date.now()
-  },
-  exercises: [
-    {
-      name : {
-        type : String,
-        trim : true,
-        required : "You must enter the exercise NAME."
-      },
-      type : {
-        type: String,
-        trim : true,
-        required : "You must enter the exercise TYPE."
-      },
-      distance : {
-        type : Number
-      },
-      duration : {
-        type : Number,
-        required : "You must enter the exercise DURATION."
-      },
-      weight: {
-        type : Number
-      },
-      sets: {
-        type : Number
-      },
-      reps: {
-        type : Number
-      }
-    }
-  ]
-});
+// Create workout with post
 
-// Create the mongoose model 'workout' and apply the workout schema to the model
-const Workout = mongoose.model("workout", WorkoutSchema);
+// Update the workout with put
 
-// Export the workout model
-module.exports = Workout;
+
+
+
+
+// Export API routes
+module.exports = router;
