@@ -8,17 +8,39 @@ const Workout = require("../models/exercise");
 // Look up how to do aggregate which will replace find on both gets
 
 router.get('/api/workouts', (req, res) => {
-    Workout.find()
+    // Workout.find()
+    Workout.aggregate([
+      {
+        $addFields: {
+          totalDuration: {
+            $sum: 'exercises.duration'
+          }
+        }
+      }
+    ])
     .then(dbWorkout => {
         res.json(dbWorkout);
-      })
-      .catch(err => {
-        res.status(400).json(err);
-      });
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    });
 })
 
 router.get('/api/workouts/range', (req, res) => {
-    Workout.find().limit(7)
+    // Workout.find()
+    Workout.aggregate([
+      {
+        $addFields: {
+          totalDuration: {
+            $sum: 'exercise.duration'
+          }
+        }
+      }
+    ])
+    .sort({
+      _id: -1
+    })
+    .limit(7)
     .then(dbWorkout => {
         res.json(dbWorkout);
       })
